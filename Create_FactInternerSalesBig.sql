@@ -137,7 +137,7 @@ end
 --Row count checks:
 
 select count(*) from dbo.FactInternetSales  --60,398
-select count(*) from dbo.FactInternetSalesBig  --12,705,170
+select count(*) from dbo.FactInternetSalesBig  --1,270,517
 select count(distinct orderdate) from dbo.FactInternetSalesBig --1,187,415
 
 select count(distinct orderdate), --1,124
