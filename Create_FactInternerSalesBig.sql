@@ -105,6 +105,7 @@ select
 @OrderQuantity,
 @ExtendedAmount,
 @SalesAmount,
+--All three datetimes are shifted the same amount of time for simplicity
 DATEADD(d,@time3,DATEADD(m,@time2,DATEADD(millisecond,@time1,@OrderDate))), 
 DATEADD(d,@time3,DATEADD(m,@time2,DATEADD(millisecond,@time1,@DueDate))), 
 DATEADD(d,@time3,DATEADD(m,@time2,DATEADD(millisecond,@time1,@ShipDate)))
@@ -131,8 +132,32 @@ deallocate YesIAmUsingACursor
 set @i = @i-1
 end 
 
+--------------------------------------------------------
+/* 
+--Row count checks:
 
 select count(*) from dbo.FactInternetSales  --60,398
 select count(*) from dbo.FactInternetSalesBig  --12,705,170
 select count(distinct orderdate) from dbo.FactInternetSalesBig --1,187,415
 
+select count(distinct orderdate), --1,124
+	   count(distinct Duedate),--1,124
+	   count(distinct Shipdate) --1,124
+from dbo.FactInternetSales 
+
+-------------------------------------------------------
+
+
+select count(distinct cast(orderdate as smalldatetime)), --4,129
+	   count(distinct cast(Duedate as smalldatetime)), --4,129
+	   count(distinct cast(Shipdate as smalldatetime))  --4,129
+from dbo.FactInternetSalesBig 
+
+
+
+select count(distinct orderdate ), --1,189,477
+	   count(distinct Duedate ), --1,189,579
+	   count(distinct Shipdate )  --1,189,400
+from dbo.FactInternetSalesBig 
+
+*/
